@@ -1,23 +1,47 @@
-FROM nginx:alpine
+# Stage 1: Dependencies
+FROM node:20-alpine AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
 
-# 复制网站文件到Nginx默认目录
-COPY index.html /usr/share/nginx/html/
-COPY css/ /usr/share/nginx/html/css/
-COPY js/ /usr/share/nginx/html/js/
-COPY images/ /usr/share/nginx/html/images/
+# Copy package files
+COPY package.json package-lock.json* ./
+RUN npm ci
 
-# 复制自定义Nginx配置（可选）
-# COPY nginx-docker.conf /etc/nginx/conf.d/default.conf
+# Stage 2: Builder
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
 
-# 设置权限
-RUN chmod -R 755 /usr/share/nginx/html
+# Build the application
+RUN npm run build
 
-# 暴露80端口
-EXPOSE 80
+# Stage 3: Runner
+FROM node:20-alpine AS runner
+WORKDIR /app
 
-# 健康检查
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD wget --quiet --tries=1 --spider http://localhost/ || exit 1
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
-# 启动Nginx
-CMD ["nginx", "-g", "daemon off;"]
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+# Copy necessary files
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Create public directory (even if empty)
+RUN mkdir -p ./public
+
+USER nextjs
+
+EXPOSE 3000
+
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+    CMD node -e "require('http').get('http://localhost:3000', (res) => { process.exit(res.statusCode === 200 ? 0 : 1); }).on('error', () => process.exit(1));"
+
+CMD ["node", "server.js"]
