@@ -1,8 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // 移除 output: 'standalone' - 这是为 Docker 准备的
-  // Cloudflare Pages 不需要这个配置
+  // 静态导出配置 - 适合 Cloudflare Pages
+  output: 'export',
+
+  // 可选：如果你有图片优化需求，取消下面的注释
+  // images: {
+  //   unoptimized: true,
+  // },
 };
 
 export default nextConfig;
