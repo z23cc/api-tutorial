@@ -1,0 +1,9 @@
+name = "api-tutorial"
+compatibility_date = "2024-11-22"
+
+# Pages 构建输出目录 - 这是关键！
+pages_build_output_dir = "./out"
+
+# 如果需要 Pages Functions（后续添加 Workers API 时用）
+# [env.production]
+# pages_build_output_dir = "./out"
