@@ -1,10 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // 静态导出配置 - 适合 Cloudflare Pages
-  output: 'export',
+  // standalone 模式 - 适合 Docker 部署
+  output: 'standalone',
 
-  // 禁用图片优化 - 静态导出必须
+  // 禁用图片优化
   images: {
     unoptimized: true,
   },

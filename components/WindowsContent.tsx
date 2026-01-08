@@ -69,14 +69,14 @@ npm --version`}
 
         <h4 className="mt-4 mb-3 text-gray-800 text-lg font-semibold">方法一:PowerShell 临时设置(当前会话)</h4>
         <CodeBlock
-          code={`$env:ANTHROPIC_BASE_URL = "https://api-key.info"
+          code={`$env:ANTHROPIC_BASE_URL = "https://api.yundu.yun"
 $env:ANTHROPIC_AUTH_TOKEN = "你的API密钥"`}
         />
 
         <h4 className="mt-4 mb-3 text-gray-800 text-lg font-semibold">方法二:PowerShell 永久设置(用户级)</h4>
         <CodeBlock
           title="# 设置用户级环境变量(永久生效)"
-          code={`[System.Environment]::SetEnvironmentVariable("ANTHROPIC_BASE_URL", "https://api-key.info", [System.EnvironmentVariableTarget]::User)
+          code={`[System.Environment]::SetEnvironmentVariable("ANTHROPIC_BASE_URL", "https://api.yundu.yun", [System.EnvironmentVariableTarget]::User)
 [System.Environment]::SetEnvironmentVariable("ANTHROPIC_AUTH_TOKEN", "你的API密钥", [System.EnvironmentVariableTarget]::User)`}
         />
 

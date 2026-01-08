@@ -47,7 +47,7 @@ npm --version`}
       <StepCard step={3} title="配置 Claude Code 环境变量" color="#e5c8b2">
         <CodeBlock
           title="# 添加到 ~/.zshrc 或 ~/.bash_profile"
-          code={`echo 'export ANTHROPIC_BASE_URL="https://api-key.info"' >> ~/.zshrc
+          code={`echo 'export ANTHROPIC_BASE_URL="https://api.yundu.yun"' >> ~/.zshrc
 echo 'export ANTHROPIC_AUTH_TOKEN="你的API密钥"' >> ~/.zshrc
 source ~/.zshrc`}
         />

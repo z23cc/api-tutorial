@@ -65,7 +65,7 @@ source ~/.bashrc`}
       <StepCard step={3} title="配置 Claude Code 环境变量" color="#e5c8b2">
         <CodeBlock
           title="# 添加到 ~/.bashrc"
-          code={`echo 'export ANTHROPIC_BASE_URL="https://api-key.info"' >> ~/.bashrc
+          code={`echo 'export ANTHROPIC_BASE_URL="https://api.yundu.yun"' >> ~/.bashrc
 echo 'export ANTHROPIC_AUTH_TOKEN="你的API密钥"' >> ~/.bashrc
 source ~/.bashrc`}
         />
